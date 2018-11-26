@@ -131,7 +131,7 @@ func SelectOne(m *DbMap, e SqlExecutor, holder interface{}, query string, args .
 		if list != nil && len(list) > 0 { // FIXME: invert if/else
 			// check for multiple rows
 			if len(list) > 1 {
-				return fmt.Errorf("gorp: multiple rows returned for: %s - %v", query, args)
+				return ErrMultipleRows{Query: query, Args: args}
 			}
 
 			// Initialize if nil
