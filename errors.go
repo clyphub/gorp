@@ -36,3 +36,14 @@ func NonFatalError(err error) bool {
 		return false
 	}
 }
+
+// Used by SelectOne to signal that there were multiple values returned when
+// expecting only one
+type ErrMultipleRows struct {
+	Query string
+	Args  []interface{}
+}
+
+func (e ErrMultipleRows) Error() string {
+	return fmt.Sprintf("gorp: multiple rows returned for: %s - %v", e.Query, e.Args)
+}
