@@ -6,8 +6,10 @@ type RedshiftDialect struct {
 
 func (d RedshiftDialect) InsertAutoIncrToTarget(exec SqlExecutor, insertSql string, _ interface{}, params ...interface{}) error {
 	rows, err := exec.Query(insertSql, params...)
-	defer rows.Close()
-	return err
+	if err != nil {
+		return err
+	}
+	return rows.Close()
 }
 
 func (d RedshiftDialect) AutoIncrBindValue() string {
