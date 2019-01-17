@@ -176,11 +176,13 @@ func (m *DbMap) AddTableWithNameAndSchema(i interface{}, schema string, name str
 	}
 
 	// check if we have a table for this type already
-	// if so, update the name and return the existing pointer
+	// if so, update the name/schema, clear the cached queries, and return the existing pointer
 	for i := range m.tables {
 		table := m.tables[i]
 		if table.gotype == t {
 			table.TableName = name
+			table.SchemaName = schema
+			table.ResetSql()
 			return table
 		}
 	}
